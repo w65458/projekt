@@ -1,5 +1,7 @@
 package com.example.tictactoe;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class GameField {
 
     private final Field[][] gameField;
@@ -11,7 +13,7 @@ public class GameField {
     public String getFieldValue(int rowIndex, int columnIndex) {
         Field field = gameField[rowIndex][columnIndex];
         if (field == null) {
-            return " ";
+            return StringUtils.SPACE;
         }
         return field.getValue();
     }
@@ -21,7 +23,7 @@ public class GameField {
     }
 
     public boolean isFieldMarked(int rowIndex, int columnIndex) {
-        return !this.gameField[rowIndex][columnIndex].getValue().equals(" ");
+        return this.gameField[rowIndex][columnIndex] != null && !this.gameField[rowIndex][columnIndex].getValue().isBlank();
     }
 
 }

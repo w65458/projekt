@@ -1,6 +1,7 @@
 package com.example.tictactoe;
 
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +103,7 @@ public class GameProcessor {
                 return true;
             }
             if (oInRowCounter == boardSize) {
-                winner = X;
+                winner = O;
                 oWinningsCounter++;
                 return true;
             }
@@ -152,7 +153,7 @@ public class GameProcessor {
                 if (j == -i + boardSize - 1 && gameField.getFieldValue(i, j).equals(X)) {
                     winningCombo.add(new Field(i, j, X));
                     xInRowCounter++;
-                } else if (j == -i + boardSize - 1 && gameField.getFieldValue(i, j).equals(X)) {
+                } else if (j == -i + boardSize - 1 && gameField.getFieldValue(i, j).equals(O)) {
                     winningCombo.add(new Field(i, j, O));
                     oInRowCounter++;
                 }
@@ -180,7 +181,7 @@ public class GameProcessor {
                 }
             }
         }
-        winner = "Draw";
+        winner = StringUtils.EMPTY;
         drawsCounter++;
         return true;
     }
