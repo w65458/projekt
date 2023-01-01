@@ -8,22 +8,28 @@ public class GameField {
 
     public GameField(int size) {
         this.gameField = new Field[size][size];
+        generateGameField();
+    }
+
+    private void generateGameField() {
+        for (int i = 0; i < gameField.length; i++) {
+            for (int j = 0; j < gameField.length; j++) {
+                gameField[i][j] = new Field(i, j, StringUtils.EMPTY);
+            }
+        }
     }
 
     public String getFieldValue(int rowIndex, int columnIndex) {
-        Field field = gameField[rowIndex][columnIndex];
-        if (field == null) {
-            return StringUtils.SPACE;
-        }
-        return field.getValue();
+        return gameField[rowIndex][columnIndex].getValue();
     }
 
     public void markField(int rowIndex, int columnIndex, String symbol) {
-        this.gameField[rowIndex][columnIndex] = new Field(rowIndex, columnIndex, symbol);
+        Field field = this.gameField[rowIndex][columnIndex];
+        field.setValue(symbol);
     }
 
     public boolean isFieldMarked(int rowIndex, int columnIndex) {
-        return this.gameField[rowIndex][columnIndex] != null && !this.gameField[rowIndex][columnIndex].getValue().isBlank();
+        return !this.gameField[rowIndex][columnIndex].getValue().isBlank();
     }
 
 }
