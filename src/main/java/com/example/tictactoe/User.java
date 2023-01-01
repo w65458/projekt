@@ -3,6 +3,6 @@ package com.example.tictactoe;
 import lombok.Data;
 
 @Data
-public class User {
+public class User implements Player{
     private final String name;
 }
