@@ -19,6 +19,10 @@ public class GameField {
         }
     }
 
+    public Field getField(int rowIndex, int columnIndex) {
+        return gameField[rowIndex][columnIndex];
+    }
+
     public String getFieldValue(int rowIndex, int columnIndex) {
         return gameField[rowIndex][columnIndex].getValue();
     }
