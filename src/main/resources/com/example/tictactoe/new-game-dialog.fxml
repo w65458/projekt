@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.GridPane?>
+
+<DialogPane prefHeight="200.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tictactoe.NewGameDialogController">
+
+    <content>
+        <GridPane vgap="20.0" alignment="TOP_CENTER">
+            <fx:define>
+                <ToggleGroup fx:id="opponent"/>
+            </fx:define>
+            <Label text="Choose your opponent:" alignment="CENTER"/>
+            <RadioButton text="User" toggleGroup="$opponent" GridPane.rowIndex="1" selected="true"/>
+            <RadioButton text="AI - Level easy" toggleGroup="$opponent" GridPane.rowIndex="2"/>
+            <RadioButton text="AI - Level medium" toggleGroup="$opponent" GridPane.rowIndex="3"/>
+            <RadioButton text="AI - Level hard" toggleGroup="$opponent" GridPane.rowIndex="4"/>
+
+            <fx:define>
+                <ToggleGroup fx:id="userSymbol"/>
+            </fx:define>
+            <Label text="Choose your symbol: " alignment="CENTER" GridPane.rowIndex="5"/>
+            <RadioButton text="X" toggleGroup="$userSymbol" GridPane.rowIndex="6" selected="true"/>
+            <RadioButton text="O" toggleGroup="$userSymbol" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
+
+        </GridPane>
+    </content>
+
+    <padding>
+        <Insets left="10.0" top="5.0"/>
+    </padding>
+
+</DialogPane>
