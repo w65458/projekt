@@ -12,6 +12,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -19,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class TicTacToeApp extends Application {
@@ -43,11 +45,13 @@ public class TicTacToeApp extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(TicTacToeApp.class.getResource("main-view.fxml"));
         root = fxmlLoader.load();
+        generatePlayBoard();
         Scene scene = new Scene(root, SCENE_SIZE, SCENE_SIZE);
         stage.setTitle("TicTacToe Game!");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+        addIcon(stage);
         showNewGameDialog();
     }
 
@@ -62,6 +66,11 @@ public class TicTacToeApp extends Application {
             }
         }
         root.setCenter(tiles);
+    }
+
+    private void addIcon(Stage stage) {
+        String url = Objects.requireNonNull(TicTacToeApp.class.getResource("largeIcon.png")).toString();
+        stage.getIcons().add(new Image(url));
     }
 
     @FXML
