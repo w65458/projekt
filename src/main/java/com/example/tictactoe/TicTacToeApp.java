@@ -37,7 +37,7 @@ public class TicTacToeApp extends Application {
     @FXML
     public MenuItem exitMenu;
     private GridPane tiles;
-    private GameProcessor processor;
+    private GameProcessor gameProcessor = new GameProcessor(BOARD_SIZE);
     private AnimationTimer gameTimer;
 
     public static void main(String[] args) {
@@ -59,11 +59,11 @@ public class TicTacToeApp extends Application {
     }
 
     private void generatePlayBoard() {
-        processor = new GameProcessor(BOARD_SIZE);
+        gameProcessor = new GameProcessor(BOARD_SIZE);
         tiles = new GridPane();
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                Tile tile = new Tile(i, j, TILE_SIZE, StringUtils.EMPTY, processor);
+                Tile tile = new Tile(i, j, TILE_SIZE, StringUtils.EMPTY, gameProcessor);
                 GridPane.setConstraints(tile, j, i);
                 tiles.getChildren().add(tile);
             }
@@ -120,10 +120,10 @@ public class TicTacToeApp extends Application {
             gameTimer = new AnimationTimer() {
                 @Override
                 public void handle(long now) {
-                    if (processor.isGameFinished()) {
+                    if (gameProcessor.isGameFinished()) {
                         endGame();
-                    } else if (processor.getTurn().equals(aiPlayer.getAiSymbol())) {
-                        Field aiMoveField = aiPlayer.move(processor.getGameField());
+                    } else if (gameProcessor.getTurn().equals(aiPlayer.getAiSymbol())) {
+                        Field aiMoveField = aiPlayer.move(gameProcessor.getGameField());
                         markTile(aiMoveField);
                     }
                 }
@@ -133,7 +133,7 @@ public class TicTacToeApp extends Application {
             gameTimer = new AnimationTimer() {
                 @Override
                 public void handle(long now) {
-                    if (processor.isGameFinished()) {
+                    if (gameProcessor.isGameFinished()) {
                         endGame();
                     }
                 }
@@ -143,11 +143,11 @@ public class TicTacToeApp extends Application {
     }
 
     private void markTile(Field aiMoveField) {
-        processor.markSymbol(aiMoveField.getRowIndex(), aiMoveField.getColumnIndex());
+        gameProcessor.markSymbol(aiMoveField.getRowIndex(), aiMoveField.getColumnIndex());
         for (Node child : tiles.getChildren()) {
             if (GridPane.getRowIndex(child) == aiMoveField.getRowIndex() && GridPane.getColumnIndex(child) == aiMoveField.getColumnIndex()) {
                 Tile t = (Tile) child;
-                t.setText(processor.getGameField().getFieldValue(aiMoveField.getRowIndex(), aiMoveField.getColumnIndex()));
+                t.setText(gameProcessor.getGameField().getFieldValue(aiMoveField.getRowIndex(), aiMoveField.getColumnIndex()));
                 break;
             }
         }
@@ -157,10 +157,10 @@ public class TicTacToeApp extends Application {
         gameTimer.stop();
 
         Label scores = (Label) root.getBottom();
-        scores.setText("X wins: " + processor.getXWinningsCounter() +
-                "\tO wins: " + processor.getOWinningsCounter() +
-                "\tDraws: " + processor.getDrawsCounter());
-        paintWinningCombo(processor.getWinningCombo());
+        scores.setText("X wins: " + gameProcessor.getXWinningsCounter() +
+                "\tO wins: " + gameProcessor.getOWinningsCounter() +
+                "\tDraws: " + gameProcessor.getDrawsCounter());
+        paintWinningCombo(gameProcessor.getWinningCombo());
 
         showGameOverAlert();
     }
@@ -183,7 +183,7 @@ public class TicTacToeApp extends Application {
         gameOverAlert.setHeaderText(null);
         gameOverAlert.initOwner(root.getScene().getWindow());
 
-        String winner = processor.getWinner();
+        String winner = gameProcessor.getWinner();
         if (winner.isEmpty()) {
             gameOverAlert.setContentText("Draw!");
         } else {
@@ -229,7 +229,7 @@ public class TicTacToeApp extends Application {
 
     @Override
     public void stop() {
-        statisticsProvider.saveStatistics(processor);
+        statisticsProvider.saveStatistics(gameProcessor);
     }
 
     @FXML
