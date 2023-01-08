@@ -18,6 +18,11 @@
                 <SeparatorMenuItem/>
                 <MenuItem fx:id="exitMenu" text="Exit" onAction="#exit"/>
             </Menu>
+            <Menu>
+                <graphic>
+                    <Label text="Statistics" onMouseClicked="#showStatsDialog"/>
+                </graphic>
+            </Menu>
         </MenuBar>
     </top>
     <bottom>

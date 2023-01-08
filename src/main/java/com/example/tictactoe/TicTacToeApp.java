@@ -27,6 +27,9 @@ public class TicTacToeApp extends Application {
     public static final int BOARD_SIZE = 3;
     public static final int TILE_SIZE = 200;
     public static final int SCENE_SIZE = BOARD_SIZE * TILE_SIZE;
+
+    private final StatisticsProvider statisticsProvider = StatisticsProvider.getInstance();
+
     @FXML
     public BorderPane root;
     @FXML
@@ -202,9 +205,36 @@ public class TicTacToeApp extends Application {
         }
     }
 
-    @FXML
-    public void exit() {
-        Platform.exit();
+    public void showStatsDialog() {
+        Alert statsAlert = new Alert(Alert.AlertType.INFORMATION);
+        statsAlert.setTitle("Statistics");
+        statsAlert.setHeaderText(null);
+        statsAlert.initOwner(root.getScene().getWindow());
+
+        statsAlert.setContentText(
+                "Games played: " + statisticsProvider.getGamesPlayed() +
+                "\nX wins: " + statisticsProvider.getXWinsTotalSum() +
+                "\tO wins: " + statisticsProvider.getOWinsTotalSum() +
+                "\tDraws: " + statisticsProvider.getDrawsTotalSum());
+
+        statsAlert.setOnHidden(e -> statsAlert.close());
+
+        statsAlert.show();
     }
 
+    @Override
+    public void init() {
+        statisticsProvider.loadStatistics();
+    }
+
+    @Override
+    public void stop() {
+        statisticsProvider.saveStatistics(processor);
+    }
+
+    @FXML
+    public void exit() {
+        stop();
+        Platform.exit();
+    }
 }
